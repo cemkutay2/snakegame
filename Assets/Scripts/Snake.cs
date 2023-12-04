@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 // add tp wall
@@ -73,6 +74,7 @@ public class Snake : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // collision
         if (other.tag == "Food")
         {
             Grow();
@@ -80,6 +82,41 @@ public class Snake : MonoBehaviour
         else if (other.tag == "Obstacle")
         {
             ResetState();
+        }
+        else if (other.tag == "Wall")
+        {
+            if (_direction == Vector2.up)
+            {
+                this.transform.position = new Vector3(
+                    Mathf.Round(transform.position.x) + _direction.x,
+                    Mathf.Round(transform.position.y) - 23f,
+                    0.0f
+                );
+            }
+            else if (_direction == Vector2.down)
+            {
+                this.transform.position = new Vector3(
+                    Mathf.Round(transform.position.x) + _direction.x,
+                    Mathf.Round(transform.position.y) + 23f,
+                    0.0f
+                );
+            }
+            else if (_direction == Vector2.right)
+            {
+                this.transform.position = new Vector3(
+                    Mathf.Round(transform.position.x) - 47f,
+                    Mathf.Round(transform.position.y) + _direction.y,
+                    0.0f
+                );
+            }
+            else if (_direction == Vector2.left)
+            {
+                this.transform.position = new Vector3(
+                    Mathf.Round(transform.position.x) + 47f,
+                    Mathf.Round(transform.position.y) + _direction.y,
+                    0.0f
+                );
+            }
         }
     }
 }

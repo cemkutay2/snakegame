@@ -868,7 +868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segmentPrefab: {fileID: 3091435583602943578, guid: 15fa6c2bf35ef4d6e987119c6da63c34, type: 3}
-  initialSize: 20
+  initialSize: 5
 --- !u!61 &1230492928
 BoxCollider2D:
   m_ObjectHideFlags: 0

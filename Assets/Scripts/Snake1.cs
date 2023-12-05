@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-// add tp wall
-// add block movement on the same plane
-public class Snake : MonoBehaviour
+// add 2p
+public class Snake1 : MonoBehaviour
 {
     private Vector2 _direction = Vector2.right;
     private List<Transform> _segments = new List<Transform>();

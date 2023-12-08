@@ -1,2 +1,2 @@
 # snakegame
- A basic snake game
+2 player snake game. Very cool!

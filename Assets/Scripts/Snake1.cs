@@ -1,17 +1,41 @@
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 // add 2p
 public class Snake1 : MonoBehaviour
 {
+    private Renderer rend;
+    private UnityEngine.Color snakeColor;
     private Vector2 _direction = Vector2.right;
     private List<Transform> _segments = new List<Transform>();
     public Transform segmentPrefab;
     public int initialSize = 4;
+    public AudioSource src;
+    public AudioClip grow_sfx;
+    public AudioClip reset_sfx;
     private void Start()
     {
-        ResetState();
+        // get color
+        rend = GetComponent<Renderer>();
+        snakeColor = rend.material.color;
+        GetColor.c = snakeColor;
+
+        // delete SnakeSegment objects
+        for (int i = 1; i < _segments.Count; i++)
+        {
+            Destroy(_segments[i].gameObject);
+        }
+        // clear list and create default snake
+        _segments.Clear();
+        _segments.Add(this.transform);
+        for (int i = 1; i < initialSize; i++)
+        {
+            _segments.Add(Instantiate(this.segmentPrefab));
+        }
+
+        this.transform.position = Vector3.zero;
     }
 
     private void Update()
@@ -40,6 +64,10 @@ public class Snake1 : MonoBehaviour
         {
             _segments[i].position = _segments[i - 1].position;
         }
+        // change segment colors
+        snakeColor = rend.material.color;
+        GetColor.c = snakeColor;
+
 
         // update snakehead based on _direction (rounded up to fit in "grid")
         this.transform.position = new Vector3(
@@ -54,6 +82,9 @@ public class Snake1 : MonoBehaviour
         Transform segment = Instantiate(this.segmentPrefab);
         segment.position = _segments[_segments.Count - 1].position;
         _segments.Add(segment);
+        // play grow sfx
+        src.clip = grow_sfx;
+        src.Play();
     }
     private void ResetState()
     {
@@ -71,6 +102,11 @@ public class Snake1 : MonoBehaviour
         }
 
         this.transform.position = Vector3.zero;
+        // add to death counter
+        ScoreManager.instance.AddSnake1Death();
+        // play reset sfx
+        src.clip = reset_sfx;
+        src.Play();
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -79,7 +115,7 @@ public class Snake1 : MonoBehaviour
         {
             Grow();
         }
-        else if (other.tag == "Obstacle")
+        else if (other.tag == "Obstacle" || other.tag == "Player")
         {
             ResetState();
         }

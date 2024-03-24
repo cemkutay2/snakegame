@@ -6,12 +6,11 @@ using UnityEngine.UI;
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
-    public Text snake1DeathCounterText;
-    public Text highScoreText;
-    public Text snake2DeathCounterText;
-    int highScore;
-    int snake1DeathCounter;
-    int snake2DeathCounter;
+    public Text timerText, snake2DeathCounterText, snake1DeathCounterText;
+    float currentTime;
+    public float startingTime;
+    int snake1DeathCounter, snake2DeathCounter;
+    public bool timeRunning;
 
     private void Awake()
     {
@@ -19,9 +18,17 @@ public class ScoreManager : MonoBehaviour
     }
     void Start()
     {
+        currentTime = startingTime;
+        timeRunning = true;
         snake1DeathCounterText.text = "Death Counter: " + snake1DeathCounter.ToString();
-        highScoreText.text = "Highscore: " + highScore.ToString();
         snake2DeathCounterText.text = "Death Counter: " + snake2DeathCounter.ToString();
+    }
+
+    private void Update()
+    {
+        currentTime -= Time.deltaTime;
+        timerText.text = $"Timer: {currentTime:N1}";
+        if (currentTime == 0) timeRunning = false;
     }
     public void AddSnake1Death()
     {

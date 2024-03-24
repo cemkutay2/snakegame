@@ -113,12 +113,12 @@ public class Snake2 : MonoBehaviour
         {
             Grow();
         }
-        else if (other.tag == "Obstacle" || other.tag == "Player")
+        else if (other.tag == "Obstacle" || other.tag == "Player" || other.tag == "Wall")
         {
             ResetState();
         }
         // wall TP
-        else if (other.tag == "Wall")
+        else if (other.tag == "TP")
         {
             if (_direction == Vector2.up)
             {
